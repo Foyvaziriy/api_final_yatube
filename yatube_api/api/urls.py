@@ -16,12 +16,8 @@ router.register(
     basename='comments',
 )
 no_detail_router.register(r'follow', views.FollowViewSet, basename='follow')
-print(router.urls)
-print()
-print(no_detail_router.urls)
 
 urlpatterns = [
-#    path('', include('djoser.urls')),
     path('', include('djoser.urls.jwt')),
     path('', include(router.urls),),
     path('', include(no_detail_router.urls),),

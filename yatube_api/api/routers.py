@@ -6,7 +6,6 @@ class NoDetailRouter(DefaultRouter):
     A router with only list action.
     """
     routes = [
-        # List route
         Route(
             url=r'^{prefix}{trailing_slash}$',
             mapping={
