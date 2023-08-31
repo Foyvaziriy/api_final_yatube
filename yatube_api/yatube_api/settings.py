@@ -1,12 +1,22 @@
 from pathlib import Path
-
 from datetime import timedelta
+import os
+
+import environ
+
+
+env = environ.Env(
+    DEBUG=(bool, True),
+    SECRET_KEY=(str, 'hhz7l-ltdismtf@bzyz+rple7*s*wsokkewhj@(@u0eok^f9k4'),
+)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'hhz7l-ltdismtf@bzyz+rple7*s*w$jak%whj@(@u0eok^f9k4'
+environ.Env.read_env(os.path.join(BASE_DIR / '.env'))
 
-DEBUG = True
+SECRET_KEY = env('SECRET_KEY')
+
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -93,7 +103,7 @@ STATICFILES_DIRS = ((BASE_DIR / 'static/'),)
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'api.permissions.IsAuthorOrReadOnly',
+        'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',

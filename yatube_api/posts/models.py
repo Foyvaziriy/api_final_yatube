@@ -12,10 +12,14 @@ class Follow(models.Model):
 
     class Meta:
         constraints = [
+            models.CheckConstraint(
+                check=~models.Q(user=models.F('following')),
+                name='no_self_following',
+            ),
             models.UniqueConstraint(
                 fields=('user', 'following',),
                 name='unique_user_following'
-            )
+            ),
         ]
 
 
