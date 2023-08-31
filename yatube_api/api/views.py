@@ -1,7 +1,8 @@
 from rest_framework.viewsets import (
     ModelViewSet, ReadOnlyModelViewSet, GenericViewSet)
 from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    IsAuthenticatedOrReadOnly, IsAuthenticated)
 from rest_framework import filters, mixins
 from django.db.models.query import QuerySet
 
@@ -19,6 +20,7 @@ class FollowViewSet(mixins.CreateModelMixin,
     serializer_class = FollowSerilizer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('following__username',)
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self) -> QuerySet:
         return get_filtered_objects(model=Follow, user=self.request.user)
@@ -35,7 +37,6 @@ class FollowViewSet(mixins.CreateModelMixin,
 class GroupViewSet(ReadOnlyModelViewSet):
     queryset = get_all_objects(model=Group)
     serializer_class = GroupSerializer
-    permission_classes = ()
 
 
 class PostViewSet(ModelViewSet):
